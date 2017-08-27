@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>闭包的详解 | 逆转海洋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作用域JavaScript的变量分为局部变量和全局  12345678910var global=&quot;global&quot;; //全局变量function foo()&amp;#123;    var local=&quot;local&quot;//函数中的局部变量    console.log(global); //global    console.log(local); //local&amp;#125;console.log(gl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包的详解">
+<meta property="og:url" content="http://reverseocean.com/2017/08/20/closure/index.html">
+<meta property="og:site_name" content="逆转海洋">
+<meta property="og:description" content="作用域JavaScript的变量分为局部变量和全局  12345678910var global=&quot;global&quot;; //全局变量function foo()&amp;#123;    var local=&quot;local&quot;//函数中的局部变量    console.log(global); //global    console.log(local); //local&amp;#125;console.log(gl">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-27T08:08:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="闭包的详解">
+<meta name="twitter:description" content="作用域JavaScript的变量分为局部变量和全局  12345678910var global=&quot;global&quot;; //全局变量function foo()&amp;#123;    var local=&quot;local&quot;//函数中的局部变量    console.log(global); //global    console.log(local); //local&amp;#125;console.log(gl">
+  
+    <link rel="alternate" href="/atom.xml" title="逆转海洋" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">逆转海洋</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://reverseocean.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-closure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/20/closure/" class="article-date">
+  <time datetime="2017-08-20T13:43:54.000Z" itemprop="datePublished">2017-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      闭包的详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>JavaScript的变量分为局部变量和全局 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var global=<span class="string">"global"</span>; //全局变量</div><div class="line"></div><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>()&#123;</div><div class="line">    var <span class="built_in">local</span>=<span class="string">"local"</span>//函数中的局部变量</div><div class="line">    console.log(global); //global</div><div class="line">    console.log(<span class="built_in">local</span>); //<span class="built_in">local</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log(global);//global</div><div class="line">console.log(<span class="built_in">local</span>);//<span class="built_in">local</span> is not defined</div></pre></td></tr></table></figure>
+<h3 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h3><p>闭包是指有权访问其他函数（作用域中）的内部函数比变量的函数。<br>从技术角度讲，所有的javascript函数都是闭包。他们都是对象，他们都关联到作用域链。</p>
+<h3 id="闭包的作用"><a href="#闭包的作用" class="headerlink" title="闭包的作用"></a>闭包的作用</h3><p>最大的两个用处：一个是可以读取函数内部的变量，另一个就是让这些变量始终保持在内存中。</p>
+<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><p>1、由于闭包会使函数中的变量保存在内存中，内存消耗大，所以不能乱用。会造成网页的性能问题，IE会导致内存泄露。<br>解决方式：推出函数之前，将不适用的局部变量全部删除<br>2、闭包会在函数外部，改变函数内部的变量值，所以如果把父函数当做对象（Object)使用，把闭包当做它的公用方法(public Method)，把内部变量当做它的私有属性(private value)，这时要小心，不要随便改变父函数内部变量的值。</p>
+<h3 id="闭包实例"><a href="#闭包实例" class="headerlink" title="闭包实例"></a>闭包实例</h3><p>闭包函数：在outer执行后，foo仍然可以访问outer()内部的私有变量localVar，因为foo将outer的内的活动对象（localVar)添加到foo的作用域，在outer执行后，localVar被foo的作用域链做引用，所以localVar不会被销毁，而是存在内存中，直到foo被销毁，才会随之销毁。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">outer</span></span>()&#123;</div><div class="line">    var localVar=1;//私有变量</div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">inner</span></span>()&#123;//闭包</div><div class="line">        <span class="built_in">return</span> localVar;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> inner;</div><div class="line">&#125;</div><div class="line">var foo=outer();</div><div class="line">foo();</div><div class="line"></div><div class="line">/简化版/</div><div class="line">var foo=(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    var <span class="built_in">local</span>=1;</div><div class="line">    <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">local</span>++;</div><div class="line">        console.log(<span class="built_in">local</span>);</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line">foo();</div><div class="line"></div><div class="line">//模块化</div><div class="line">var module=(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    var <span class="built_in">local</span>=1;</div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">modA</span></span>()&#123;</div><div class="line">        <span class="built_in">local</span>++;</div><div class="line">        console.log(<span class="built_in">local</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">modB</span></span>()&#123;</div><div class="line">        <span class="built_in">local</span>++;</div><div class="line">        consolee.log(<span class="built_in">local</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> &#123;</div><div class="line">        a:modA,</div><div class="line">        b:modB</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line">module.a();</div><div class="line">module.b();</div><div class="line"></div><div class="line">//闭包循环应用</div><div class="line">&lt;ul&gt;</div><div class="line">    &lt;li&gt;1&lt;/li&gt;</div><div class="line">    &lt;li&gt;2&lt;/li&gt;</div><div class="line">    &lt;li&gt;3&lt;/li&gt;</div><div class="line">    &lt;li&gt;4&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line">&lt;script&gt;</div><div class="line">    var nodes=document.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line">    <span class="keyword">for</span> (var i = 0; i &lt; nodes.length; i++) &#123;</div><div class="line">        nodes[i].onclick=(<span class="keyword">function</span>(arg)&#123;</div><div class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">                alert(nodes[arg].innerHTML);</div><div class="line">            &#125;</div><div class="line">        &#125;)(i);</div><div class="line">    &#125;</div><div class="line">&lt;/script&gt;</div><div class="line">//setTimeout</div><div class="line"><span class="keyword">for</span>(var i=0;i&lt;3;i++)&#123;</div><div class="line">    setTimeout(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        console.log(i);</div><div class="line">    &#125;)</div><div class="line">&#125;// 3,3,3</div><div class="line"></div><div class="line">//使用闭包</div><div class="line"><span class="keyword">for</span>(var i=0;i&lt;3;i++)&#123;</div><div class="line">    (<span class="keyword">function</span>(num)&#123;</div><div class="line">        setTimeout(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            console.log(num);</div><div class="line">        &#125;)</div><div class="line">    &#125;)(i)</div><div class="line">&#125;//1,2,3</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://reverseocean.com/2017/08/20/closure/" data-id="cj6ughw5t0000rc6d3rkcelgc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/10/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/20/closure/">闭包的详解</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 WangZheng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
