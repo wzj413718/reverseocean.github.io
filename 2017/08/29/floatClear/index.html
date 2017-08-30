@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>clearfix 清除浮动进化史 | 个人技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="传统的清除浮动方法在许多老网站上可以看到这样的代码，使用暴力有效的方法解决浮动问题，都这种方法，有一个致命伤，就是每次清除浮动的时候都需要增加一个空标签来使用，这样不利于页面的优化。 1.clera&amp;#123;clear:both;line-height:0;&amp;#125;&amp;#125; clearfix方法1、起源 123456789.clearfix:after&amp;#123;    visibili">
+<meta name="keywords" content="Css技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clearfix 清除浮动进化史">
+<meta property="og:url" content="http://reverseocean.com/2017/08/29/floatClear/index.html">
+<meta property="og:site_name" content="个人技术博客">
+<meta property="og:description" content="传统的清除浮动方法在许多老网站上可以看到这样的代码，使用暴力有效的方法解决浮动问题，都这种方法，有一个致命伤，就是每次清除浮动的时候都需要增加一个空标签来使用，这样不利于页面的优化。 1.clera&amp;#123;clear:both;line-height:0;&amp;#125;&amp;#125; clearfix方法1、起源 123456789.clearfix:after&amp;#123;    visibili">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-30T04:31:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="clearfix 清除浮动进化史">
+<meta name="twitter:description" content="传统的清除浮动方法在许多老网站上可以看到这样的代码，使用暴力有效的方法解决浮动问题，都这种方法，有一个致命伤，就是每次清除浮动的时候都需要增加一个空标签来使用，这样不利于页面的优化。 1.clera&amp;#123;clear:both;line-height:0;&amp;#125;&amp;#125; clearfix方法1、起源 123456789.clearfix:after&amp;#123;    visibili">
+  
+    <link rel="alternate" href="/atom.xml" title="个人技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">个人技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://reverseocean.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-floatClear" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/29/floatClear/" class="article-date">
+  <time datetime="2017-08-29T08:16:35.000Z" itemprop="datePublished">2017-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      clearfix 清除浮动进化史
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="传统的清除浮动方法"><a href="#传统的清除浮动方法" class="headerlink" title="传统的清除浮动方法"></a>传统的清除浮动方法</h3><p>在许多老网站上可以看到这样的代码，使用暴力有效的方法解决浮动问题，都这种方法，有一个致命伤，就是每次清除浮动的时候都需要增加一个空标签来使用，这样不利于页面的优化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.clera&#123;clear:both;line-height:0;&#125;&#125;</div></pre></td></tr></table></figure>
+<h4 id="clearfix方法"><a href="#clearfix方法" class="headerlink" title="clearfix方法"></a>clearfix方法</h4><p>1、起源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">.clearfix:after&#123;</div><div class="line">    visibility:hidden;</div><div class="line">    display:block;</div><div class="line">    font-size:0;</div><div class="line">    content:<span class="string">" "</span>;</div><div class="line">    clear:both;</div><div class="line">    height:0;</div><div class="line">&#125;</div><div class="line">.clearfix&#123;*zoom:1;&#125;</div></pre></td></tr></table></figure>
+<p>2、终极版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.clearfix:after&#123;</div><div class="line">    content:<span class="string">"200B"</span>;</div><div class="line">    display:block;</div><div class="line">    height:0;</div><div class="line">    clear:both;</div><div class="line">&#125;</div><div class="line">.clearfix&#123;*zoom:1;&#125;/*IE/6/7*/</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://reverseocean.com/2017/08/29/floatClear/" data-id="cj6ym5a7r00016h6dptkyg393" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Css技巧/">Css技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/20/closure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">闭包的详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css技巧/">Css技巧</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Css技巧/" style="font-size: 10px;">Css技巧</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/29/floatClear/">clearfix 清除浮动进化史</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/20/closure/">闭包的详解</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 WangZheng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
